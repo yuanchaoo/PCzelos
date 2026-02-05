@@ -12,7 +12,7 @@
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.16.8",
     "motion": "^12.30.0",
-    "next": "14.2.7",
+    "next": "14.2.35",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "three": "^0.182.0"
