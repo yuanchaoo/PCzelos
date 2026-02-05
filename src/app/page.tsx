@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
+import type { CSSProperties } from "react";
+
 import HeroVideo from "@/components/HeroVideo";
 import StatsCounter from "@/components/StatsCounter";
 import { CometCard } from "@/components/ui/comet-card";
@@ -232,6 +234,11 @@ const news = [
 ];
 
 export default function Home() {
+  const statsVars = {
+    "--stats-right":
+      "max(24px, calc((100vw - 1440px) / 2 + 120px))"
+  } as CSSProperties;
+
   return (
     <>
       <main className="bg-slate-50">
@@ -268,10 +275,7 @@ export default function Home() {
       <section
         id="value"
         className="full-bleed relative min-h-[100svh] snap-start bg-[#EEF4FF]"
-        style={{
-          ["--stats-right" as React.CSSProperties["--stats-right"]]:
-            "max(24px, calc((100vw - 1440px) / 2 + 120px))"
-        }}
+        style={statsVars}
       >
         <div
           className="absolute top-1/2 z-0 -translate-y-1/2 peer"
