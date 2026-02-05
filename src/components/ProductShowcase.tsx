@@ -122,7 +122,7 @@ export default function ProductShowcase({ items }: ProductShowcaseProps) {
             <div className="mt-[-10px] text-center">
               {activeItem?.name && (
                 <h3
-                  className="text-[36px] font-bold text-[#111827]"
+                  className="text-[50px] font-bold text-[#111827]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {activeItem.name}
@@ -130,7 +130,7 @@ export default function ProductShowcase({ items }: ProductShowcaseProps) {
               )}
               {subtitleLines ? (
                 <p
-                  className="mt-3 text-[18px] text-[#6B7280]"
+                  className="mt-3 text-[24px] leading-[38px] text-[#6B7280]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {subtitleLines.map((line, index) => (
@@ -142,7 +142,7 @@ export default function ProductShowcase({ items }: ProductShowcaseProps) {
                 </p>
               ) : activeItem?.range && activeItem?.load ? (
                 <p
-                  className="mt-3 text-[18px] text-[#6B7280]"
+                  className="mt-3 text-[24px] leading-[38px] text-[#6B7280]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Range {activeItem.range} · Load {activeItem.load}
