@@ -21,6 +21,16 @@ const impactStats = [
   { value: 17000, label: "Vehicle data", suffix: "+" }
 ];
 
+type CSSVars = CSSProperties & {
+  "--stats-right"?: string;
+  "--s1x"?: string;
+  "--s1y"?: string;
+  "--s2x"?: string;
+  "--s2y"?: string;
+  "--s3x"?: string;
+  "--s3y"?: string;
+};
+
 const techHighlights = [
   "End-to-end autonomous stack with perception, planning, and control.",
   "Fleet-grade redundancy built for complex logistics scenarios.",
@@ -234,10 +244,10 @@ const news = [
 ];
 
 export default function Home() {
-  const statsVars = {
+  const statsVars: CSSVars = {
     "--stats-right":
       "max(24px, calc((100vw - 1440px) / 2 + 120px))"
-  } as CSSProperties;
+  };
 
   return (
     <>
@@ -386,14 +396,16 @@ export default function Home() {
                   >
                     <div
                       className="relative h-full w-full overflow-hidden rounded-[24px] bg-[rgba(240,241,242,0.8)] p-8 text-slate-700 transition-colors duration-300 ease-out group-hover:bg-gradient-to-br group-hover:from-[#2871EF] group-hover:to-[#1254C6]"
-                      style={{
-                        ["--s1x" as React.CSSProperties["--s1x"]]: seed.s1x,
-                        ["--s1y" as React.CSSProperties["--s1y"]]: seed.s1y,
-                        ["--s2x" as React.CSSProperties["--s2x"]]: seed.s2x,
-                        ["--s2y" as React.CSSProperties["--s2y"]]: seed.s2y,
-                        ["--s3x" as React.CSSProperties["--s3x"]]: seed.s3x,
-                        ["--s3y" as React.CSSProperties["--s3y"]]: seed.s3y
-                      }}
+                      style={
+                        {
+                          "--s1x": seed.s1x,
+                          "--s1y": seed.s1y,
+                          "--s2x": seed.s2x,
+                          "--s2y": seed.s2y,
+                          "--s3x": seed.s3x,
+                          "--s3y": seed.s3y
+                        } as CSSVars
+                      }
                     >
                       <div className="relative z-10">
                       <h3
