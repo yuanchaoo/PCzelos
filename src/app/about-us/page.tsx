@@ -242,15 +242,16 @@ export default function AboutUsPage() {
         <div className="w-full border-b border-[#E6E7EA]">
           <div className="mx-auto w-full max-w-[1440px] px-6 pb-[56px] pt-[72px] md:px-10 xl:px-[100px]">
             <h1
-              className="max-w-[880px] text-[56px] font-bold leading-[1.08] text-black md:text-[64px] xl:text-[72px]"
+              className="max-w-[1120px] text-[56px] font-bold leading-[1.08] text-black md:text-[64px] xl:text-[72px]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               <TextType
-                text={"The Global\nPioneer of RoboVan."}
+                text={"The Global\nPioneer\u00A0of\u00A0RoboVan."}
                 typingSpeed={48}
                 loop={false}
                 showCursor
                 cursorCharacter="|"
+                reserveSpace
                 className="leading-[1.08]"
               />
             </h1>

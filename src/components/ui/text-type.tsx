@@ -17,6 +17,7 @@ type TextTypeProps = {
   cursorCharacter?: string;
   showCursor?: boolean;
   startOnVisible?: boolean;
+  reserveSpace?: boolean;
 };
 
 export default function TextType({
@@ -31,7 +32,8 @@ export default function TextType({
   deleteOnLoop = true,
   cursorCharacter = "|",
   showCursor = true,
-  startOnVisible = true
+  startOnVisible = true,
+  reserveSpace = false
 }: TextTypeProps) {
   const targetRef = useRef<HTMLSpanElement | null>(null);
   const hasStartedRef = useRef(false);
@@ -43,6 +45,10 @@ export default function TextType({
   const textList = useMemo(
     () => (Array.isArray(text) ? text : [text]).filter(Boolean),
     [text]
+  );
+  const longestText = useMemo(
+    () => textList.reduce((max, current) => (current.length > max.length ? current : max), ""),
+    [textList]
   );
 
   useEffect(() => {
@@ -143,19 +149,32 @@ export default function TextType({
   const visibleText = activeText.slice(0, charIndex);
 
   return (
-    <span ref={targetRef} className={cn("inline-block", className)}>
-      <span className="whitespace-pre-line">{visibleText}</span>
-      {showCursor ? (
-        <span
-          className={cn(
-            "ml-[2px] inline-block align-baseline text-current animate-pulse",
-            cursorClassName
-          )}
-        >
-          {cursorCharacter}
+    <span
+      ref={targetRef}
+      className={cn("inline-block", reserveSpace && "relative", className)}
+    >
+      {reserveSpace ? (
+        <span aria-hidden className="select-none whitespace-pre-line opacity-0">
+          {longestText}
         </span>
       ) : null}
+
+      <span className={cn(reserveSpace && "absolute inset-0")}>
+        <span className="whitespace-pre-line">
+          {visibleText}
+          {showCursor ? (
+            <span
+              aria-hidden
+              className={cn(
+                "inline align-baseline text-current animate-pulse",
+                cursorClassName
+              )}
+            >
+              {cursorCharacter}
+            </span>
+          ) : null}
+        </span>
+      </span>
     </span>
   );
 }
-
