@@ -1,27 +1,78 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function StickyHeader() {
+type NavItemKey = "product" | "scenarios" | "resources" | "about";
+
+type StickyHeaderProps = {
+  theme?: "dark" | "light";
+  hideOnScroll?: boolean;
+  activeItem?: NavItemKey;
+};
+
+const navItems: Array<{ key: NavItemKey; label: string; href: string }> = [
+  { key: "product", label: "Product", href: "/#value" },
+  { key: "scenarios", label: "Scenarios", href: "/#technology" },
+  { key: "resources", label: "Resources", href: "/#resources" },
+  { key: "about", label: "About us", href: "/about-us" }
+];
+
+export default function StickyHeader({
+  theme = "dark",
+  hideOnScroll = true,
+  activeItem
+}: StickyHeaderProps) {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const lastScrollYRef = useRef(0);
+  const isLightTheme = theme === "light";
+  const useLightSurface = isLightTheme || scrolled;
 
   useEffect(() => {
+    if (!hideOnScroll) {
+      setHidden(false);
+      setScrolled(false);
+      return;
+    }
+
     const onScroll = () => {
       const currentY = window.scrollY;
-      const shouldHide = currentY > 10;
-      setScrolled(shouldHide);
-      setHidden(shouldHide);
+      const previousY = lastScrollYRef.current;
+      const deltaY = currentY - previousY;
+
+      if (currentY <= 10) {
+        setScrolled(false);
+        setHidden(false);
+        lastScrollYRef.current = currentY;
+        return;
+      }
+
+      setScrolled(true);
+
+      // Ignore tiny wheel/touch jitter; only react to meaningful direction changes.
+      if (Math.abs(deltaY) < 2) return;
+
+      if (deltaY > 0) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      lastScrollYRef.current = currentY;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [hideOnScroll]);
 
-  const navText = scrolled ? "text-[#222943]" : "text-[#F0F1F2]";
-  const hoverText = scrolled ? "hover:text-[#195ED2]" : "hover:text-[#8EC6FF]";
-  const headerSurface = "bg-transparent";
+  const navText = useLightSurface ? "text-[#8E919F]" : "text-[#F0F1F2]";
+  const hoverText = isLightTheme
+    ? "hover:text-[#25CACC] active:text-[#25CACC]"
+    : "hover:text-[#25CACC] active:text-[#25CACC]";
+  const headerSurface = useLightSurface
+    ? "border-b border-[#E6E7EA] bg-white"
+    : "bg-transparent";
 
   return (
     <header
@@ -29,18 +80,33 @@ export default function StickyHeader() {
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="section-container flex items-center justify-between py-6">
+      <div className="section-container flex h-[72px] items-center justify-between">
         <a
           href="/#top"
           aria-label="ZelosTech home"
-          className="group flex items-center"
+          className="group relative flex items-center"
         >
           <img
             src="/logo.png"
             alt="ZelosTech"
-            className={`h-6 w-auto md:h-7 transition duration-300 ${
-              scrolled ? "brightness-0" : ""
-            } group-hover:[filter:brightness(0)_saturate(100%)_invert(24%)_sepia(90%)_saturate(2552%)_hue-rotate(209deg)_brightness(101%)_contrast(101%)]`}
+            className={`h-6 w-auto md:h-7 transition-opacity duration-300 group-hover:opacity-0 ${
+              useLightSurface ? "brightness-0" : ""
+            }`}
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              backgroundColor: "#25CACC",
+              WebkitMaskImage: "url('/logo.png')",
+              maskImage: "url('/logo.png')",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskPosition: "left center",
+              maskPosition: "left center"
+            }}
           />
         </a>
         <div
@@ -48,36 +114,30 @@ export default function StickyHeader() {
           style={{ fontFamily: "var(--font-inter)" }}
         >
           <nav className="flex items-center gap-[50px]">
-            <a
-              className={`text-[16px] font-normal transition ${navText} ${hoverText} hover:font-bold active:font-bold`}
-              href="#value"
-            >
-              Product
-            </a>
-            <a
-              className={`text-[16px] font-normal transition ${navText} ${hoverText} hover:font-bold active:font-bold`}
-              href="#technology"
-            >
-              Scenarios
-            </a>
-            <a
-              className={`text-[16px] font-normal transition ${navText} ${hoverText} hover:font-bold active:font-bold`}
-              href="#resources"
-            >
-              Resources
-            </a>
-            <a
-              className={`text-[16px] font-normal transition ${navText} ${hoverText} hover:font-bold active:font-bold`}
-              href="#fleet"
-            >
-              About us
-            </a>
+            {navItems.map((item) => {
+              const isActive = item.key === activeItem;
+              const activeText = isActive
+                ? useLightSurface
+                  ? "text-[#040B29] font-medium"
+                  : "text-[#25CACC] font-bold"
+                : "";
+
+              return (
+                <a
+                  key={item.key}
+                  className={`text-[16px] font-normal transition ${navText} ${hoverText} ${activeText}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
           <button
             className={`ml-[60px] inline-flex h-[34px] w-[146px] items-center justify-center rounded-[5px] text-[16px] font-bold transition ${
-              scrolled
-                ? "bg-[#195ED2] text-white hover:bg-[#1b6be0] active:bg-[#1b6be0]"
-                : "bg-white text-black hover:bg-[#F5F6F7] hover:text-[#0080FF] active:bg-[#F5F6F7] active:text-[#0080FF]"
+              useLightSurface
+                ? "bg-black text-white hover:bg-[#25CACC] active:bg-[#25CACC]"
+                : "bg-white text-black hover:bg-[#25CACC] hover:text-white active:bg-[#25CACC] active:text-white"
             }`}
           >
             Schedule a call

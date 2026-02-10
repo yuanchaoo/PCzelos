@@ -11,6 +11,7 @@ type NewsItem = {
 
 type NewsSectionProps = {
   items: NewsItem[];
+  backgroundClassName?: string;
 };
 
 const CARD_WIDTH = 375;
@@ -28,7 +29,10 @@ const formatDate = (value: string) => {
   }).format(parsed);
 };
 
-export default function NewsSection({ items }: NewsSectionProps) {
+export default function NewsSection({
+  items,
+  backgroundClassName = "bg-white"
+}: NewsSectionProps) {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = React.useState(false);
   const [canNext, setCanNext] = React.useState(true);
@@ -70,7 +74,7 @@ export default function NewsSection({ items }: NewsSectionProps) {
   };
 
   return (
-    <section id="news" className="full-bleed bg-white">
+    <section id="news" className={`full-bleed ${backgroundClassName}`}>
       <div className="mx-auto min-h-[100vh] w-full max-w-[1440px] px-6 pb-[60px] pt-[100px] md:px-10 xl:px-[100px]">
         <div className="text-left">
           <h2

@@ -1,9 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
 
 :root {
   color-scheme: light;
+  --font-manrope: "Inter", "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB";
+  --font-space: "Avenir Next", "Trebuchet MS", "Segoe UI", "PingFang SC";
+  --font-inter: "Inter", "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB";
+  --font-poppins: "Poppins", "Inter", "SF Pro Text", "Segoe UI", "PingFang SC";
 }
 
 html {
