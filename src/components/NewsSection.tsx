@@ -12,6 +12,7 @@ type NewsItem = {
 type NewsSectionProps = {
   items: NewsItem[];
   backgroundClassName?: string;
+  cardBackgroundClassName?: string;
 };
 
 const CARD_WIDTH = 375;
@@ -31,7 +32,8 @@ const formatDate = (value: string) => {
 
 export default function NewsSection({
   items,
-  backgroundClassName = "bg-white"
+  backgroundClassName = "bg-white",
+  cardBackgroundClassName = "bg-white"
 }: NewsSectionProps) {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = React.useState(false);
@@ -101,7 +103,7 @@ export default function NewsSection({
               {repeatedItems.map((item, index) => (
                 <article
                   key={item._key}
-                  className={`w-[375px] flex-shrink-0 overflow-hidden rounded-[16px] bg-white ${
+                  className={`w-[375px] flex-shrink-0 overflow-hidden rounded-[16px] ${cardBackgroundClassName} ${
                     index === 0 ? "ml-[100px]" : ""
                   }`}
                 >

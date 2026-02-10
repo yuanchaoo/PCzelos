@@ -30,7 +30,7 @@ const TIMELINE_LINE_HEIGHT = 380;
 const TIMELINE_MILESTONES = [
   {
     year: "2021",
-    image: "/Rectangle%2053.png",
+    image: "/2021.png",
     title: "Zelostech Founded",
     description:
       "Founded in 2021, Zelostech was established by a world-class autonomous driving team and is a leading global autonomous driving technology company. From day one, Zelostech has been driven by a clear mission - Making Logistics Simpler."
@@ -460,7 +460,11 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <NewsSection items={newsItems} backgroundClassName="bg-[#F6F9FF]" />
+      <NewsSection
+        items={newsItems}
+        backgroundClassName="bg-[#F6F9FF]"
+        cardBackgroundClassName="bg-transparent"
+      />
       <HomeFooterSection />
     </main>
   );
