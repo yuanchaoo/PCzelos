@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import HomeFooterSection from "@/components/HomeFooterSection";
 import NewsSection from "@/components/NewsSection";
 import StickyHeader from "@/components/StickyHeader";
+import TextType from "@/components/ui/text-type";
 import { newsItems } from "@/data/newsItems";
 
 const LIGHT_TEXT_COLOR = { r: 192, g: 194, b: 201 }; // #C0C2C9
@@ -241,11 +242,17 @@ export default function AboutUsPage() {
         <div className="w-full border-b border-[#E6E7EA]">
           <div className="mx-auto w-full max-w-[1440px] px-6 pb-[56px] pt-[72px] md:px-10 xl:px-[100px]">
             <h1
-              className="max-w-[880px] text-[56px] font-bold leading-[1.08] text-[#1E2646] md:text-[64px] xl:text-[72px]"
+              className="max-w-[880px] text-[56px] font-bold leading-[1.08] text-black md:text-[64px] xl:text-[72px]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              <span className="block">The Global</span>
-              <span className="block">Pioneer of RoboVan.</span>
+              <TextType
+                text={"The Global\nPioneer of RoboVan."}
+                typingSpeed={48}
+                loop={false}
+                showCursor
+                cursorCharacter="|"
+                className="leading-[1.08]"
+              />
             </h1>
             <p
               className="mt-[40px] max-w-[1120px] text-[22px] font-bold leading-[1.45] text-[#8E919F] md:text-[24px]"
@@ -264,7 +271,7 @@ export default function AboutUsPage() {
             muted
             loop
             playsInline
-            poster="/Traditional%20Logistics.png"
+            preload="auto"
           >
             <source src="/about_us.mp4" type="video/mp4" />
           </video>
